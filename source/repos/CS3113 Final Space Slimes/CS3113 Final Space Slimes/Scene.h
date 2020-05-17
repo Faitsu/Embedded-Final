@@ -17,7 +17,6 @@ struct GameState {
 	Entity *player;  
 	Entity *enemies;
 	Entity* background;
-	Entity* prop;
 	Entity* lives;
 	Entity* projectile;
 	int nextScene;
@@ -27,8 +26,11 @@ class Scene{
 	//various globalvariables I think I'm going to need
 	 public: 
 		 bool complete = false;
-		 GameState state;   
+		 int ENEMY_COUNT = 3;
+		 GameState state;
+		 ~Scene();
 		 virtual void Initialize() = 0;  
 		 virtual void Update(float deltaTime) = 0;
 		 virtual void Render(ShaderProgram *program) = 0;
  };
+

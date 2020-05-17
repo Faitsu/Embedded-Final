@@ -2,7 +2,7 @@
 #define LEVEL2_WIDTH 15 
 #define LEVEL2_HEIGHT 8
 
-#define ENEMY_COUNT 3
+
 #define BULLET_COUNT 4
 
 

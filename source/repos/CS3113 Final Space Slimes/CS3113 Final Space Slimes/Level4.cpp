@@ -1,8 +1,6 @@
 #include "Level4.h"
 #define LEVEL4_WIDTH 15 
 #define LEVEL4_HEIGHT 8
-
-#define ENEMY_COUNT 3
 #define BULLET_COUNT 4
 
 

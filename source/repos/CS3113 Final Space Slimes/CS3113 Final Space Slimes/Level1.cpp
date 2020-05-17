@@ -2,7 +2,6 @@
 #define LEVEL1_WIDTH 15 
 #define LEVEL1_HEIGHT 8
 
-#define ENEMY_COUNT 4
 #define BULLET_COUNT 4
 
 
@@ -48,10 +47,12 @@ void Level1::Initialize() {
 	state.player->animRows = 4;
 
 	
-	
+	state.enemies = new Entity[1];
 	//set up Enemy unit
 	
 	if (!complete) {//starting off with 3 basic slimes 
+		delete state.enemies;
+		ENEMY_COUNT = 4;
 		state.enemies = new Entity[ENEMY_COUNT];
 		for (int k = 0; k < ENEMY_COUNT; k++) {
 			//Technical 
@@ -87,7 +88,6 @@ void Level1::Initialize() {
 	}
 	
 	else {
-			state.enemies = new Entity[1];
 			state.enemies[0].position = glm::vec3(8, -3.0f, 0);
 			state.enemies[0].movement = glm::vec3(0);
 			state.enemies[0].speed = 1.15f;

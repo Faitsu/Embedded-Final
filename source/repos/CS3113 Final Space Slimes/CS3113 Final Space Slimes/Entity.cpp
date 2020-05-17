@@ -155,9 +155,6 @@ void Entity::CheckCollisionsX(Entity *objects, int objectCount) {
 				else {
 					object->hp--;
 				}
-                isActive = false;
-                shoot = false;
-                projectileType = READY;
 			}
 		}
 	}

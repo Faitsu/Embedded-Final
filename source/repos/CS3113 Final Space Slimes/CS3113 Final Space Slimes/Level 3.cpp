@@ -2,7 +2,7 @@
 #define LEVEL3_WIDTH 15 
 #define LEVEL3_HEIGHT 8
 
-#define ENEMY_COUNT 4
+
 #define BULLET_COUNT 4
 
 
@@ -41,9 +41,11 @@ void Level3::Initialize() {
 	state.player->animCols = 4;
 	state.player->animRows = 4;
 
+	
+	ENEMY_COUNT = 4;
 	state.enemies = new Entity[ENEMY_COUNT];
 	//set up Enemy unit
-
+	
 
 	state.enemies[0].enemyType = WALKER;
 

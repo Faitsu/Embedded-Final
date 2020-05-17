@@ -2,7 +2,6 @@
 #define LEVEL5_WIDTH 15 
 #define LEVEL5_HEIGHT 8
 
-#define ENEMY_COUNT 5
 #define BULLET_COUNT 4
 
 
@@ -39,6 +38,8 @@ void Level5::Initialize() {
 	state.player->animIndices = state.player->animIdle;
 	state.player->animCols = 4;
 	state.player->animRows = 4;
+
+	ENEMY_COUNT = 5;
 
 	state.enemies = new Entity[ENEMY_COUNT];
 	//set up Enemy unit

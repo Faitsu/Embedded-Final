@@ -1,6 +1,5 @@
-//ERICA CHOU 04/17/2020
-//PLATFORMER PROJECT 5
-//Polar Bear Adventures
+//ERICA CHOU 05/01.20
+//Project 6: Space Slimes
 
 #define GL_SILENCE_DEPRECATION
 
@@ -44,9 +43,9 @@ Mix_Music* music;
 Mix_Music* success;
 Mix_Music* fail;
 
-Mix_Chunk* shoot_noise;
+Mix_Chunk* shoot;
 Mix_Chunk* bump;
-Mix_Chunk* hit;
+Mix_Chunk* stomp;
 
 Scene* currentScene; 
 Scene* sceneList[7];
@@ -56,13 +55,23 @@ int prevlvl = 1;
 
 //if we complete the whole level, slimes will not respawn
 int completed[5] = {0,0,0,0,0};
-bool despawnboss = false;
+
 
 
 
 int hp = 3;
-void SwitchToScene(Scene *scene) {
+void SwitchToScene(Scene *scene) {//switches from one level to another. In this case the levels are the rooms
 	int donecounter = 0;
+	
+	//testing out code it seems like memory allocation is messed up if theres too many levels so I should delete everything before moving to the next scene
+	if (currentScene != 0) {
+		delete currentScene->state.map;
+		delete currentScene->state.player;
+		delete currentScene->state.enemies; //tried to delete enemies inside the array but it wont work. will try again later
+		delete currentScene->state.lives;
+		delete currentScene->state.background;
+		delete currentScene->state.projectile;
+	}
 	currentScene = scene;
 	currentScene->Initialize();
 	currentScene->state.player->hp = hp;
@@ -118,7 +127,7 @@ glm::mat4 viewMatrix, modelMatrix, modelMatrix2, projectionMatrix;
 
 void Initialize() {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-	displayWindow = SDL_CreateWindow("Space Slime!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
+	displayWindow = SDL_CreateWindow("Polar Bear Adventures!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_OPENGL);
 	SDL_GLContext context = SDL_GL_CreateContext(displayWindow);
 	SDL_GL_MakeCurrent(displayWindow, context);
 
@@ -163,9 +172,9 @@ void Initialize() {
 	Mix_VolumeMusic(MIX_MAX_VOLUME / 4);
 	Mix_Volume(-1, MIX_MAX_VOLUME / 4);
 
-	shoot_noise = Mix_LoadWAV("smb_fireball.wav");
+	shoot = Mix_LoadWAV("smb_fireball.wav");
 	bump = Mix_LoadWAV("smb3_bump.wav");
-	hit = Mix_LoadWAV("smb_kick.wav");
+	stomp = Mix_LoadWAV("smb3_stomp.wav");
 
 	
 }
@@ -193,8 +202,8 @@ void ProcessInput() {
 					else {
 						for (int i = 0; i < 4; i++) {
 							if (currentScene->state.projectile[i].isActive == false) {
-								currentScene->state.projectile[i].Shoot(currentScene->state.player); 
-								Mix_PlayChannel(-1, shoot_noise, 0);
+								Mix_PlayChannel(-1, shoot, 0);
+								currentScene->state.projectile[i].Shoot(currentScene->state.player);
 								break;
 							}
 						}
@@ -286,6 +295,9 @@ void Update() {
 		currentScene->state.player->success = true;
 	}
 
+	
+
+
 	if ((currentScene->state.player->position.y <= -7.5) && !currentScene->state.player->fail) {
 		Mix_PlayChannel(-1, bump, 0);
 	}
@@ -294,7 +306,9 @@ void Update() {
 			Mix_PlayChannel(-1, bump, 0);
 	}
 
-	
+	if (currentScene->state.player->collidedBottom) {
+		Mix_PlayChannel(-1, stomp, 0);
+	}
 	
 	accumulator = deltaTime;
 	viewMatrix = glm::mat4(1.0f);
@@ -324,9 +338,9 @@ void Render() {
 
 void Shutdown() {
 	SDL_Quit();
-	Mix_FreeChunk(shoot_noise);
+	Mix_FreeChunk(shoot);
 	Mix_FreeChunk(bump);
-	Mix_FreeChunk(hit);
+	Mix_FreeChunk(stomp);
 	Mix_FreeMusic(music);
 	Mix_FreeMusic(success);
 	Mix_FreeMusic(fail);
