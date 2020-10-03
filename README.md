@@ -37,3 +37,4 @@ YOU LOSE ALL THREE LIVES
 -Player may or may not glitch through walls if they walk right next to them. This is most likely because of how the collision detection works in this game.
 
   -As long as you dont stand near a wall you probably will not clip, however this bug is also quite random as the player will sometimes clip and sometimes not clip. 
+"# CompNetworkingAssignment2" 
